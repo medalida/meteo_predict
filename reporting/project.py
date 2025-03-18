@@ -17,8 +17,8 @@ if st.button("Prédire"):
         st.warning("Veuillez entrer une description avant de prédire.")
     else:
         # Envoi de la requête à l'API de prédiction
-        api_url = "http://serving-api:8080/predict"  # URL de l'API
-        response = requests.post(api_url, json={"text": user_input})
+        api_url = "http://localhost:8000/predict"  # Nouvelle URL corrigée
+        response = requests.post(api_url, json={"description": user_input})  # Modifier aussi le nom de la clé JSON
 
         # Vérification de la réponse de l'API
         if response.status_code == 200:
