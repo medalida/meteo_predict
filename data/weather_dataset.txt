@@ -1,0 +1,156 @@
+Ciel dégagé et soleil éclatant,1
+Pluie fine persistante,0
+Nuages épars avec éclaircies,1
+Brouillard matinal dense,0
+Vent fort sans précipitation,0
+Soleil dominant toute la journée,1
+Averses localisées en matinée,0
+Cumulus blancs dans ciel bleu,1
+Grêle en fin d'après-midi,0
+Brume légère en soirée,0
+Ensoleillé avec température douce,1
+Orages violents en nuit,0
+Stratus couvrant tout le ciel,0
+Périodes ensoleillées fréquentes,1
+Crachin continu,0
+Ciel bleu sans nuage,1
+Rafales de vent avec pluie,0
+Éclaircies entre les nuages,1
+Bancs de brouillard épars,0
+Léger vent d'est et soleil,1
+Neige fondue en matinée,0
+Ciel laiteux avec halo lunaire,0
+Rares gouttes en soirée,0
+Plein soleil toute la journée,1
+Nuages menaçants mais secs,0
+Brume sèche en vallée,0
+Éclaircies dominantes,1
+Pluie verglaçante,0
+Ciel partiellement voilé,1
+Averses éparses rapides,0
+Douceur printanière et ensoleillée,1
+Rafales de mistral,0
+Altocumulus en formation,0
+Beau temps malgré quelques nuages,1
+Bruine intermittente,0
+Ciel cristallin,1
+Giboulées de mars,0
+Stratus bas persistants,0
+Soleil voilé par haute brume,1
+Pluie torrentielle,0
+Épisode venteux avec éclaircies,0
+Ciel de traîne actif,0
+Anticyclone et ciel clair,1
+Bancs de brouillard givrants,0
+Nuages de convection isolés,1
+Précipitations faibles mais continues,0
+Ensoleillement généreux,1
+Grésil en fin de nuit,0
+Ciel uniformément gris,0
+Éclaircies durables,1
+Brouillard givrant,0
+Cumulonimbus menaçants,0
+Pression atmosphérique élevée,1
+Pluie modérée constante,0
+Nuages d'altitude clairsemés,1
+Vent faible et ciel dégagé,1
+Bancs de stratus,0
+Ciel de feu en coucher de soleil,1
+Averse orageuse brève,0
+Cirrus en voile léger,1
+Brouillard de radiation,0
+Brume humide en forêt,0
+Ciel dégagé étoilé,1
+Rafales de sud-ouest,0
+Nuages lenticulaires,0
+Ensoleillé avec brise légère,1
+Pluie fine et brouillard,0
+Ciel de traîne rapide,0
+Stratus fractus bas,0
+Beau malgré un vent frais,1
+Averses de neige fondue,0
+Ciel clair après la pluie,1
+Bancs de cumulus,1
+Brouillard en montagne,0
+Éclaircies temporaires,1
+Pluie nocturne faible,0
+Ciel de moutons,1
+Vent violent avec poussière,0
+Nuages irisés,1
+Bruine matinale,0
+Ciel de cuivre,0
+Ensoleillement intense,1
+Ondées dispersées,0
+Cirrocumulus en vague,1
+Brouillard urbain,0
+Ciel zébré de nuages,1
+Giboulées de neige,0
+Éclaircies du matin,1
+Pluie battante,0
+Nuages en déroute,1
+Grêle sur le nord,0
+Ciel limpide,1
+Brume de chaleur,0
+Altostratus translucides,1
+Averse subite,0
+Ciel de traîne,0
+Éclaircies en après-midi,1
+Brouillard maritime,0
+Nuages en formation,1
+Pluie faible continue,0
+Ciel de gel blanc,0
+Soleil radieux,1
+Rafales de nord-ouest,0
+Nuages de beau temps,1
+Brouillard givrant persistant,0
+Ciel sans nuage,1
+Nuages de sable en suspension,0
+Léger crachin printanier,0
+Ciel de plomb,0
+Éclaircies en milieu de journée,1
+Brouillard valléen persistant,0
+Rafales de sud-est,0
+Cirrostratus uniformes,1
+Averse de grésil,0
+Ciel pommelé,1
+Brume de mer côtière,0
+Éclaircies du soir,1
+Pluie drue,0
+Nuages en draperie,0
+Ciel turquoise,1
+Bancs de brouillard urbain,0
+Plein soleil matinal,1
+Orage sec,0
+Stratus déchiquetés,0
+Ciel de traîne changeant,0
+Éclaircies après l'orage,1
+Brise marine et soleil,1
+Précipitations éparses,0
+Nuages en vague,1
+Brouillard givrant en plaine,0
+Ciel de méduse,1
+Averse de neige poudreuse,0
+Altocumulus perlés,1
+Pluie faible nocturne,0
+Ciel de gel matinal,0
+Éclaircies en fin de nuit,1
+Nuages en flammes,0
+Ciel de perle,1
+Grésil en début de journée,0
+Brume de vallée,0
+Ciel de mousson,0
+Éclaircies du petit matin,1
+Nuages en touffes,1
+Pluie verglaçante nocturne,0
+Ciel de soie,1
+Bancs de stratocumulus,0
+Éclaircies entre deux averses,1
+Brouillard de pente,0
+Ciel de craie,0
+Nuages en fleur,1
+Averse de grêlons,0
+Ciel de saphir,1
+Brume de radiation matinale,0
+Éclaircies du crépuscule,1
+Nuages en rouleau,0
+Ciel de porcelaine,1
