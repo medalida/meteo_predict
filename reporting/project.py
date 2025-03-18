@@ -31,15 +31,12 @@ if st.button("Prédire"):
             prediction = response.json().get("prediction", "Erreur dans la réponse")
             st.success(f"🌡️ Prédiction météo : {prediction}")
             
-            # Ajout des boutons de feedback
-            feedback = st.radio("Avez-vous trouvé la prédiction utile ?", ("Sélectionner", "Like", "Dislike"))
-            
-            if feedback == "Like":
+            if st.button("Like"):
                 st.write("Merci pour votre retour positif ! 👍")
-                send_feedback(feedback)
-            elif feedback == "Dislike":
+                send_feedback("Like")
+            if st.button("Dislike"):
                 st.write("Désolé pour cette prédiction. Nous travaillons pour nous améliorer. 👎")
-                send_feedback(feedback)         
+                send_feedback("Dislike")         
         
         else:
             st.error("Erreur lors de la requête à l'API de prédiction.")
