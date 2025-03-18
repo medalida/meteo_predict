@@ -31,6 +31,11 @@ with open(model_path, "rb") as f:
 class WeatherInput(BaseModel):
     description: str
 
+class FeedbackInput(BaseModel):
+    description: str
+    prediction: int
+    feedback: str    
+
 @app.post("/predict")
 def predict_weather(input: WeatherInput):
     # Vérification de la connexion
@@ -38,6 +43,17 @@ def predict_weather(input: WeatherInput):
     vectorized_input = model['vectorizer'].transform([input.description])
     prediction = model['classifier'].predict(vectorized_input)[0]
     return {"prediction": "Beau temps" if prediction == 1 else "Mauvais temps"}
+
+
+@app.post("/feedback")
+def feedback(input: FeedbackInput):
+    line = ""
+    if (input.feedback == "Like" and input.prediction == "Beau temps") or (input.feedback == "Dislike" and input.prediction == "Mauvais temps"):
+        line = input.description + ",1\n"
+    else:
+        line = input.description + ",0\n"
+    with open("../data/weather_dataset.txt", "a", encoding="utf-8") as f:
+        f.write(line)    
 
 # Ajouter ce bloc pour l'exécution
 if __name__ == "__main__":
