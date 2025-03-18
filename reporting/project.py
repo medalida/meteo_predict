@@ -15,7 +15,7 @@ user_input = st.text_area("Décrivez la météo actuelle :",
 
 def send_feedback(feedback):
     feedback_data = {"description": user_input, "prediction": prediction, "feedback": feedback}
-    feedback_url = "{api_url}/feedback"
+    feedback_url = api_url+"/feedback"
     requests.post(feedback_url, json=feedback_data)
 
 # Bouton pour prédire la météo
@@ -24,7 +24,7 @@ if st.button("Prédire"):
         st.warning("Veuillez entrer une description avant de prédire.")
     else:
         # Envoi de la requête à l'API de prédiction
-        response = requests.post("{api_url}/predict", json={"description": user_input})  # Modifier aussi le nom de la clé JSON
+        response = requests.post(api_url+"/predict", json={"description": user_input})  # Modifier aussi le nom de la clé JSON
 
         # Vérification de la réponse de l'API
         if response.status_code == 200:
