@@ -1,122 +1,89 @@
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.linear_model import LogisticRegression
-from sklearn.pipeline import Pipeline
-import pickle
-from nltk.stem import SnowballStemmer
-from nltk.corpus import stopwords
-import string
-from sklearn.model_selection import train_test_split, GridSearchCV
-from sklearn.metrics import classification_report
+import torch
+from transformers import BertTokenizer, BertForSequenceClassification, TrainingArguments, Trainer
+from datasets import Dataset, DatasetDict
 import numpy as np
+from sklearn.metrics import accuracy_score, f1_score
 import json
 
-# Initialiser les outils NLP
-stemmer = SnowballStemmer("french")
-stop_words = set(stopwords.words("french"))
+# Charger le tokenizer BERT
+tokenizer = BertTokenizer.from_pretrained('bert-base-uncased')
 
-def preprocess_text(text):
-    # 1. Minuscules
-    text = text.lower()
-    # 2. Suppression ponctuation
-    text = text.translate(str.maketrans('', '', string.punctuation))
-    # 3. Suppression stopwords
-    text = ' '.join([word for word in text.split() if word not in stop_words])
-    # 4. Racines des mots (stemming)
-    text = ' '.join([stemmer.stem(word) for word in text.split()])
-    return text
+# Nouvelle fonction de prétraitement
+def tokenize_function(examples):
+    return tokenizer(
+        examples['text'],
+        padding='max_length',
+        truncation=True,
+        max_length=128
+    )
 
-# Chargement des données
+# Chargement des données (adapté pour BERT)
 with open("data/weather_dataset.txt", "r", encoding="utf-8") as f:
-    train_data = []
+    texts, labels = [], []
     for line in f:
         try:
-            # Séparation description/label
             desc, label = line.strip().split(',')
-            # Conversion en tuple (description, label)
-            train_data.append((desc.strip(), int(label)))
-        except ValueError as e:
-            print(f"Avertissement: ligne ignorée - {line.strip()} ({str(e)})")
+            texts.append(desc.strip())
+            labels.append(int(label))
+        except:
+            continue
 
-print(f"{len(train_data)} exemples chargés avec succès")
+# Création du dataset HuggingFace
+full_dataset = Dataset.from_dict({
+    'text': texts,
+    'label': labels
+})
+dataset = full_dataset.train_test_split(test_size=0.2)
 
-# Après le chargement des données
-# Vérification de la qualité des données
-texts = [x[0] for x in train_data]
-labels = [x[1] for x in train_data]
-print(f"Distribution des classes : {sum(labels)/len(labels):.1%} positifs")
+# Tokenization
+tokenized_datasets = dataset.map(tokenize_function, batched=True)
 
-# Vérification des doublons
-unique_descriptions = len(set(texts))
-print(f"{len(texts) - unique_descriptions} doublons détectés")
+# Modèle BERT
+model = BertForSequenceClassification.from_pretrained(
+    'bert-base-uncased',
+    num_labels=2
+)
 
-# Avant l'entraînement
-if len(np.unique(labels)) < 2:
-    raise ValueError("Les données ne contiennent qu'une seule classe")
+# Paramètres d'entraînement
+training_args = TrainingArguments(
+    output_dir='./results',
+    evaluation_strategy='epoch',
+    learning_rate=2e-5,
+    per_device_train_batch_size=16,
+    per_device_eval_batch_size=16,
+    num_train_epochs=3,
+    weight_decay=0.01,
+    logging_dir='./logs',
+)
 
-# Création du pipeline ML
-model = Pipeline([
-    ('vectorizer', TfidfVectorizer(
-        preprocessor=preprocess_text,
-        max_features=1000,
-        ngram_range=(1, 2)
-    )),
-    ('classifier', LogisticRegression(
-        class_weight='balanced',
-        max_iter=1000
-    ))
-])
+# Métriques d'évaluation
+def compute_metrics(p):
+    preds = np.argmax(p.predictions, axis=1)
+    return {
+        'accuracy': accuracy_score(p.label_ids, preds),
+        'f1': f1_score(p.label_ids, preds)
+    }
 
 # Entraînement
-# Séparation entraînement/test (80/20)
-X_train, X_test, y_train, y_test = train_test_split(
-    texts, labels, test_size=0.2, random_state=42
+trainer = Trainer(
+    model=model,
+    args=training_args,
+    train_dataset=tokenized_datasets['train'],
+    eval_dataset=tokenized_datasets['test'],
+    compute_metrics=compute_metrics,
 )
 
-# Recherche d'hyperparamètres
-param_grid = {
-    'vectorizer__max_features': [500, 1000, 1500],
-    'classifier__C': [0.1, 1, 10]
-}
-
-# Création du modèle optimisé
-model = GridSearchCV(
-    estimator=Pipeline([
-        ('vectorizer', TfidfVectorizer(preprocessor=preprocess_text)),
-        ('classifier', LogisticRegression())
-    ]),
-    param_grid=param_grid,
-    cv=5  # Validation croisée 5 folds
-)
-
-# Entraînement avec optimisation
-model.fit(X_train, y_train)
-
-# Évaluation
-print(f"Meilleurs paramètres: {model.best_params_}")
-print(f"Score test: {model.score(X_test, y_test):.2%}")
-
-# Évaluation détaillée
-y_pred = model.predict(X_test)
-print("\nRapport de classification :")
-print(classification_report(y_test, y_pred))
+trainer.train()
 
 # Sauvegarde du modèle
-with open("artifacts/model.pkl", "wb") as f:
-    pickle.dump({
-        'vectorizer': model.best_estimator_.named_steps['vectorizer'],
-        'classifier': model.best_estimator_.named_steps['classifier']
-    }, f)
+model.save_pretrained("artifacts/bert_model")
+tokenizer.save_pretrained("artifacts/bert_tokenizer")
 
-# Sauvegarde des noms de features
-with open("artifacts/features.pkl", "wb") as f:
-    pickle.dump(model.best_estimator_.named_steps['vectorizer'].get_feature_names_out(), f)
-
-# Après la sauvegarde
-# Ajout de metadata
+# Métadonnées
 model_metadata = {
-    'accuracy': model.score(X_test, y_test),
-    'dataset_size': len(train_data),
-    'features_version': '1.0'
+    'framework': 'transformers',
+    'model_type': 'bert-base-uncased',
+    'max_length': 128
 }
 
 with open("artifacts/model_metadata.json", "w") as f:
