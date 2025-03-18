@@ -5,7 +5,7 @@ from pydantic import BaseModel
 app = FastAPI()
 
 # Charger le modèle entraîné
-with open("artifacts/model.pkl", "rb") as f:
+with open("../artifacts/model.pkl", "rb") as f:
     model = pickle.load(f)
 
 class WeatherInput(BaseModel):
